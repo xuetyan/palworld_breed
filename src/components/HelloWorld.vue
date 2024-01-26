@@ -6,7 +6,7 @@
       </div>
       <div class="seeds_box">
         <div v-for="seed in newSeeds" :key="seed.seed_id" class="img_box">
-          <div class="seed_img" :style="{ backgroundImage: `url(${''&&seed.img})` }" @click="dropSeed(seed)">
+          <div class="seed_img" :style="{ backgroundImage: `url(${seed.img})` }" @click="dropSeed(seed)">
             <div v-show="disabledSeed(seed)" class="check_mask" />
           </div>
           <div class="seed_name">
@@ -29,7 +29,7 @@
             <Connection />
           </el-icon>
           <div>
-            <div class="breed_content parent_1" :style="{ backgroundImage: `url(${''&&breed?.s1_img})`, '--shoadow-color': dropSeeds.has(breed.s1)?'#f76b6c':'#303133'}" />
+            <div class="breed_content parent_1" :style="{ backgroundImage: `url(${breed?.s1_img})`, '--shoadow-color': dropSeeds.has(breed.s1)?'#f76b6c':'#303133'}" />
             <div class="seed_name">
               {{ `${breed.s1}.${breed.s1_name}` }}
             </div>
@@ -38,7 +38,7 @@
             +
           </div>
           <div>
-            <div class="breed_content parent_2" :style="{ backgroundImage: `url(${''&&breed?.s2_img})`, '--shoadow-color': dropSeeds.has(breed.s2)?'#f76b6c':'#303133' }" />
+            <div class="breed_content parent_2" :style="{ backgroundImage: `url(${breed?.s2_img})`, '--shoadow-color': dropSeeds.has(breed.s2)?'#f76b6c':'#303133' }" />
             <div class="seed_name">
               {{ `${breed.s2}.${breed.s2_name}` }}
             </div>
@@ -47,7 +47,7 @@
             =
           </div>
           <div>
-            <div class="breed_content child" :style="{ backgroundImage: `url(${''&&breed?.ret_img})`, '--shoadow-color': '#303133' }" />
+            <div class="breed_content child" :style="{ backgroundImage: `url(${breed?.ret_img})`, '--shoadow-color': '#303133' }" />
             <div class="seed_name">
               {{ `${breed.ret}.${breed.ret_name}` }}
             </div>
