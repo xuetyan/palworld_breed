@@ -2,6 +2,7 @@ const { defineConfig } = require("@vue/cli-service")
 const pageTitle = 'PAL'
 module.exports = defineConfig({
   transpileDependencies: true,
+  outputDir: 'dist2',
   devServer: {
     proxy: {
       "palworld": {

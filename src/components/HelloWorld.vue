@@ -25,10 +25,10 @@
       </div>
       <div class="seeds_box">
         <div v-for="(breed, bIndex) in breedResult" :key="bIndex" class="breed_box">
-          <el-icon style="color: #303133;font-size: 14px;">
+          <el-icon style="color: #303133;font-size: 14px;" @click="toDetail(breed)">
             <Connection />
           </el-icon>
-          <div class="breed_block">
+          <div>
             <div class="breed_content parent_1" :style="{ backgroundImage: `url(${''&&breed?.s1_img})`, '--shoadow-color': dropSeeds.has(breed.s1)?'#f76b6c':'#303133'}" />
             <div class="seed_name">
               {{ `${breed.s1}.${breed.s1_name}` }}
@@ -37,7 +37,7 @@
           <div class="plus">
             +
           </div>
-          <div class="breed_block">
+          <div>
             <div class="breed_content parent_2" :style="{ backgroundImage: `url(${''&&breed?.s2_img})`, '--shoadow-color': dropSeeds.has(breed.s2)?'#f76b6c':'#303133' }" />
             <div class="seed_name">
               {{ `${breed.s2}.${breed.s2_name}` }}
@@ -46,7 +46,7 @@
           <div class="equals">
             =
           </div>
-          <div class="breed_block">
+          <div>
             <div class="breed_content child" :style="{ backgroundImage: `url(${''&&breed?.ret_img})`, '--shoadow-color': '#303133' }" />
             <div class="seed_name">
               {{ `${breed.ret}.${breed.ret_name}` }}
@@ -55,6 +55,10 @@
         </div>
       </div>
     </div>
+
+    <el-dialog v-model="showDetail" title="MORE">
+      <BreedDetail :target="targetBreed" :seeds="seeds" :all-breed="allBreed" :drop-seeds="dropSeeds" />
+    </el-dialog>
   </div>
 </template>
 
@@ -64,6 +68,8 @@ import { ref, computed, onMounted, watch } from "vue"
 import request from "../utils/request"
 import { o } from "../utils/t"
 
+import BreedDetail from './BreedDialog.vue'
+
 const breedData = {
   s1: 0,
   s2: 0,
@@ -71,6 +77,8 @@ const breedData = {
   size: 2000,
   page: 1
 }
+
+const showDetail = ref(false)
 
 // 帕鲁图鉴
 const seeds = ref([])
@@ -89,6 +97,9 @@ const targetSeed = ref("")
 const page = ref(0)
 const size = ref(20)
 let timeout = null
+
+// 查看详情
+const targetBreed = ref({})
 
 onMounted(() => {
   const localData = window.localStorage.getItem('PAL')
@@ -182,9 +193,15 @@ watch(dropSeeds, () => {
 const disabledSeed = (seed) => {
   return dropSeeds.value.has(seed.seed_id)
 }
+
+// 前往详情dialig
+const toDetail = (t) => {
+  showDetail.value = true
+  targetBreed.value = t
+}
 </script>
 
-<style>
+<style scoped>
 .main {
   width: 100%;
   height: 100%;
@@ -274,7 +291,7 @@ const disabledSeed = (seed) => {
   border-radius: 12px;
 }
 
-.el-icon {
+:deep(.el-icon) {
   position: absolute !important;
   top: 4px;
   right: 4px;
@@ -285,7 +302,6 @@ const disabledSeed = (seed) => {
   height: 76px;
   border-radius: 6px;
   background: no-repeat center / contain;
-  /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.4); */
   box-shadow: 0 0 4px var(--shoadow-color);
 }
 </style>
